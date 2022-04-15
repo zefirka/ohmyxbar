@@ -10,10 +10,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "ohmyxbar": "/bin/cli.js"
+    "ohmyxbar": "/bin/run.sh"
   },
   "author": "Trdat Mkrtchyan <wombtromb@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@tsconfig/node16": "^1.0.2",
     "axios": "^0.26.1",
