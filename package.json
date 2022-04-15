@@ -13,7 +13,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "ohmyxbar": "/bin/run.sh"
+    "ohmyxbar": "./bin/run.sh",
+    "ohmyxbar-js": "./bin/cli.js"
   },
   "author": "Trdat Mkrtchyan <wombtromb@gmail.com>",
   "license": "MIT",
