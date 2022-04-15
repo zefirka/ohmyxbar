@@ -1,7 +1,6 @@
 #!/bin/bash
 
 NODE=$(which node)
-echo $NODE
 CLI_JS="$(dirname "$0")/cli.js"
 
 if test -f "$CLI_JS"; then
