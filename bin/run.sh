@@ -1,5 +1,12 @@
 #!/bin/bash
 
 NODE=$(which node)
-PWD="$(dirname "$0")/cli.js"
-$($NODE $PWD $1)
+
+CLI_JS="$(dirname "$0")/cli.js"
+
+if test -f "$CLI_JS"; then
+    $NODE $CLI_JS $1
+else
+    CLI_JS="$(dirname "$0")/ohmyxbar-js"
+    $CLI_JS $1
+fi
