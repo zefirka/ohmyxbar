@@ -1,9 +1,12 @@
 {
   "name": "ohmyxbar",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "build/index.js",
-  "files": ["build/*", "bind/*"],
+  "files": [
+    "build/*",
+    "bind/*"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "build:watch": "tsc -p tsconfig.json --watch",
