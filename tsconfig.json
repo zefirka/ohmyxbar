@@ -1,0 +1,15 @@
+{
+    "extends": "@tsconfig/node16/tsconfig.json",
+    "compilerOptions": {
+        "target": "ES2021",
+        "baseUrl": "./",
+        "outDir": "./build",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "strictPropertyInitialization": false,
+    },
+    "include": [
+        "typings/*",
+        "src/**/*",
+    ],
+}
