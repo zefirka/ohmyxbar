@@ -8,7 +8,7 @@ let config;
 
 try {
     config = require(argv.c || argv.config || `${homedir}/.ohmyxbarrc`);
-} catch {
+} catch (err) {
     config = {};
 }
 

@@ -23,7 +23,7 @@ export interface JiraConfig {
     linkToStatusFilter?: boolean;
     ticketsByStatus?: number;
     useSeparators?: boolean;
-    groupDepth?: 'flat' | 'by-project' | 'by-status';
+    groupDepth?: 'flat' | 'by-project' | 'by-project-status' | 'by-status';
 }
 
 interface IRecord<T = {}> {
@@ -169,7 +169,7 @@ export default async function JiraPlugin(cfg: JiraConfig): Promise<LogAll> {
         projectData.byStatus[status].push({
             title: truncate(`${ticket.key} - ${ticket.fields.summary}`, 40),
             status: ticket.fields.status.name.toLocaleLowerCase(),
-            href: `https://servicetitan.atlassian.net/browse/${ticket.key}`,
+            href: `${config.host}/browse/${ticket.key}`,
             ticket,
         });
     });
@@ -186,6 +186,7 @@ export default async function JiraPlugin(cfg: JiraConfig): Promise<LogAll> {
             const idx = res.push({
                 title,
                 href,
+                pad: 0,
             });
             prjsIndicies[title] = idx;
 
@@ -198,6 +199,7 @@ export default async function JiraPlugin(cfg: JiraConfig): Promise<LogAll> {
 
                 res.push({
                     title: statusData.group,
+                    pad: 0,
                     color: statusData.color,
                     href: config.linkToStatusFilter
                         ? jqlLink(`status = "${status}" order by ${config.order} DESC`)
@@ -206,6 +208,7 @@ export default async function JiraPlugin(cfg: JiraConfig): Promise<LogAll> {
 
                 byStatusArr.forEach((ticket) => {
                     res.push({
+                        pad: 0,
                         title: ticket.title,
                         color: statusData.color,
                         href: ticket.href,
@@ -250,6 +253,43 @@ export default async function JiraPlugin(cfg: JiraConfig): Promise<LogAll> {
                 config.useSeparators && proj.items.push('---');
             });
             res.push(proj);
+        } else if (config.groupDepth === 'by-status') {
+            const res = result as LogItemobject[];
+
+            const proj = {
+                pad: 0,
+                title,
+                href,
+                items: [] as LogItem[],
+            };
+
+            res.push(proj);
+
+            statusEntries.forEach(([status, byStatusArr]) => {
+                const statusData = statusMap[status];
+
+                if (!statusData) {
+                    return;
+                }
+
+                const projStatus = {
+                    pad: 0,
+                    title: statusData.group,
+                    color: statusData.color,
+                    items: [] as LogItem[],
+                };
+
+                byStatusArr.forEach((ticket) => {
+                    projStatus.items.push({
+                        pad: 2,
+                        title: ticket.title,
+                        color: statusData.color,
+                        href: ticket.href,
+                    });
+                });
+
+                res.push(projStatus);
+            });
         } else {
             const res = result as LogItemobject[];
             const proj = {
@@ -272,7 +312,8 @@ export default async function JiraPlugin(cfg: JiraConfig): Promise<LogAll> {
                     color: statusData.color,
                     items: [],
                 };
-                const idx = proj.items.push(statusGroup);
+
+                proj.items.push(statusGroup);
 
                 byStatusArr.forEach((ticket) => {
                     statusGroup.items?.push({
