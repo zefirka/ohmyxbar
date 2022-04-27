@@ -20,10 +20,10 @@ killall || echo "xBar not started"
 rm -rf /Applications/xbar.app || echo "xBar not installed, installing" 
 mv xbar.app /Applications/ || exit 1
 
-mkdir -p ~/Library/Application Support/xbar
-mkdir -p ~/Library/Application Support/xbar/plugins
+mkdir -p "~/Library/Application Support/xbar"
+mkdir -p "~/Library/Application Support/xbar/plugins"
 
-PLUGIN_FILE=~/Library/Application Support/xbar/plugins/ohmyxbar.sh
+PLUGIN_FILE="~/Library/Application Support/xbar/plugins/ohmyxbar.sh"
 
 rm -f $PLUGIN_FILE
 touch $PLUGIN_FILE
