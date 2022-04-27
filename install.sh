@@ -23,11 +23,9 @@ mv xbar.app /Applications/ || exit 1
 mkdir -p ~/Library/Application\ Support/xbar
 mkdir -p ~/Library/Application\ Support/xbar/plugins
 
-PLUGIN_FILE=~/Library/Application\ Support/xbar/plugins/ohmyxbar.sh
 
-rm -f $PLUGIN_FILE
-touch $PLUGIN_FILE
-chmod 777 $PLUGIN_FILE
+touch ~/Library/Application\ Support/xbar/plugins/ohmyxbar.sh
+chmod 777 ~/Library/Application\ Support/xbar/plugins/ohmyxbar.sh
 
 echo "#!/bin/sh" >> $PLUGIN_FILE
 echo 'export PATH="$PATH:"/usr/local/bin/' >> $PLUGIN_FILE
@@ -72,7 +70,7 @@ printf "module.exports = {\n\
     },\n\
 }\n" >> $CFG_FILE
 
-echo "npx ohmyxbar ${CFG_FILE}" >> $PLUGIN_FILE
+echo "npx ohmyxbar ${CFG_FILE}" >> ~/Library/Application\ Support/xbar/plugins/ohmyxbar.sh
 
 open /Applications/xbar.app
 
