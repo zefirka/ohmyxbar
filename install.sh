@@ -1,4 +1,5 @@
 exitMsg () {
+    
     echo "$*"
     exit 0
 }
@@ -6,7 +7,7 @@ exitMsg () {
 HERE=$(pwd)
 cd /tmp
 
-echo "Installing xBar"
+echo "Updating/Installing xBar"
 curl -s https://api.github.com/repos/matryer/xbar/releases/latest \
 | grep "browser_download_url.*zip" \
 | cut -d : -f 2,3 \
@@ -14,6 +15,8 @@ curl -s https://api.github.com/repos/matryer/xbar/releases/latest \
 | wget -qi - || exitMsg 'Cant install xBar'
 
 unzip xbar*.zip
+
+rm -rf /Applications/xbar.app || echo "xBar not installed, installing" 
 mv xbar.app /Applications/ || exit 1
 
 
