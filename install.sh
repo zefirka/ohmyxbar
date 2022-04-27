@@ -16,9 +16,9 @@ curl -s https://api.github.com/repos/matryer/xbar/releases/latest \
 
 unzip xbar*.zip
 
+killall || echo "xBar not started"
 rm -rf /Applications/xbar.app || echo "xBar not installed, installing" 
 mv xbar.app /Applications/ || exit 1
-
 
 mkdir -p ~/Library/Application Support/xbar
 mkdir -p ~/Library/Application Support/xbar/plugins
