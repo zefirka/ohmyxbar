@@ -82,7 +82,7 @@ echo "  plugins: {" >> "${CFG_FILE}"
 
 configure_jira() {
     while true; do
-        read -p "[$i]: Insert Jira token (see https://id.atlassian.com ): " JIRA_TOKEN </dev/tty
+        read -p "[$i]: Insert Jira token (see https://id.atlassian.com/manage-profile/security/api-tokens ): " JIRA_TOKEN </dev/tty
         if [ "$JIRA_TOKEN" == "" ]; then
             as_error "Jira token is required"
         else

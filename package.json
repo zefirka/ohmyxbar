@@ -1,18 +1,23 @@
 {
   "name": "ohmyxbar",
-  "version": "0.0.1",
+  "version": "0.0.8",
   "description": "",
-  "main": "index.js",
+  "main": "build/index.js",
+  "files": [
+    "build/*",
+    "bind/*"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "build:watch": "tsc -p tsconfig.json --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "ohmyxbar": "/bin/cli.js"
+    "ohmyxbar": "./bin/run.sh",
+    "ohmyxbar-js": "./bin/cli.js"
   },
   "author": "Trdat Mkrtchyan <wombtromb@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@tsconfig/node16": "^1.0.2",
     "axios": "^0.26.1",

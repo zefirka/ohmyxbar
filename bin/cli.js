@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 const fs = require('fs');
 const argv = require('minimist')(process.argv.slice(2));
 const build = require('../build');
@@ -10,7 +8,7 @@ let config;
 
 try {
     config = require(argv.c || argv.config || `${homedir}/.ohmyxbarrc`);
-} catch {
+} catch (err) {
     config = {};
 }
 
