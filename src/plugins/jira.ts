@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import {truncate, LogAll, LogItemobject, LogObject, LogItem, TLogItemobject} from '../utils';
+import {truncate, LogAll, LogItemobject, LogItem, TLogItemobject, IRecord} from '../utils';
 
 type StatusGroup = {
     groupTitle: string;
@@ -24,13 +24,6 @@ export interface JiraConfig {
     ticketsByStatus?: number;
     useSeparators?: boolean;
     groupDepth?: 'flat' | 'by-project' | 'by-project-status' | 'by-status';
-}
-
-interface IRecord<T = {}> {
-    title: string;
-    href?: string;
-    color?: string;
-    items?: T[];
 }
 
 interface IByStatus extends IRecord<IRecord> {
@@ -175,7 +168,6 @@ export default async function JiraPlugin(cfg: JiraConfig): Promise<LogAll> {
     });
 
     const result = config.groupDepth === 'flat' ? ([] as LogItem[]) : ([] as LogItemobject[]);
-    const prjsIndicies: Record<string, number> = {};
     Object.values(byProject).forEach((byProjectData) => {
         const {title, href, byStatus} = byProjectData;
         const statusEntries = orderByStatuses(statusMap, byStatus);
@@ -183,12 +175,12 @@ export default async function JiraPlugin(cfg: JiraConfig): Promise<LogAll> {
         if (config.groupDepth === 'flat') {
             const res = result as LogItem[];
 
-            const idx = res.push({
+            res.push({
                 title,
                 href,
                 pad: 0,
+                size: 32,
             });
-            prjsIndicies[title] = idx;
 
             statusEntries.forEach(([status, byStatusArr]) => {
                 const statusData = statusMap[status];

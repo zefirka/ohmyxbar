@@ -20,6 +20,13 @@ export type LogObject<T extends LogItem = LogItem> = Record<string, T>;
 export type LogArr = LogObject[] | LogItemobject[];
 export type LogAll = LogObject | LogArr | LogItem[] | LogItemobject | string;
 
+export interface IRecord<T = {}> {
+    title: string;
+    href?: string;
+    color?: string;
+    items?: T[];
+}
+
 export const truncate = (s: string, n: number) => (s.length > n ? s.substr(0, n - 1) + '...' : s);
 
 interface ILog {

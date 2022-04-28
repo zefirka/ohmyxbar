@@ -1,8 +1,11 @@
 import JiraPlugin, {JiraConfig} from './plugins/jira';
+import GithubPlugin, {GithubConfig} from './plugins/github';
+
 import {logObject} from './utils';
 
 const PLUGINS: Record<string, Function> = {
     jira: JiraPlugin,
+    github: GithubPlugin,
 };
 
 export interface OhMyXbarConfig {
@@ -10,6 +13,7 @@ export interface OhMyXbarConfig {
     quickLinks: any;
     plugins?: {
         jira?: JiraConfig;
+        github?: GithubConfig;
     };
 }
 
@@ -24,7 +28,11 @@ export default async (config: OhMyXbarConfig) => {
 
     for (const [name, pluginConfig] of Object.entries(config.plugins || {})) {
         if (PLUGINS[name]) {
-            logObject(await PLUGINS[name](pluginConfig));
+            try {
+                logObject(await PLUGINS[name](pluginConfig));
+            } catch (e) {
+                console.log('e', e); // eslint-disable-line
+            }
         }
     }
 };
