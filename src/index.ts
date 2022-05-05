@@ -12,6 +12,7 @@ export interface OhMyXbarConfig {
     header?: string;
     quickLinks: any;
     verbose?: boolean;
+    itemLength?: number;
     plugins?: {
         jira?: JiraConfig;
         github?: GithubConfig;
@@ -30,7 +31,7 @@ export default async (config: OhMyXbarConfig) => {
     for (const [name, pluginConfig] of Object.entries(config.plugins || {})) {
         if (PLUGINS[name]) {
             try {
-                logObject(await PLUGINS[name](pluginConfig));
+                logObject(await PLUGINS[name]({itemLength: config.itemLength || 45, ...pluginConfig}));
                 console.log('---');
             } catch (e: any) {
                 if (config.verbose) {

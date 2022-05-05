@@ -1,6 +1,6 @@
 import axios, {AxiosRequestConfig} from 'axios';
 
-import {truncate, LogAll, LogItemobject, LogObject, LogItem, TLogItemobject} from '../utils';
+import {truncate, LogAll, LogItemobject, LogItem} from '../utils';
 
 const statusColors = {
     open: '#ffa900',
@@ -15,6 +15,7 @@ export interface GithubConfig {
     excludeProjects?: string[];
     groupDepth?: 'flat' | 'by-project' | 'by-repo' | 'by-project-repo' | 'by-project-type' | 'by-project-repo-type';
     useSeparators?: boolean;
+    itemLength?: number;
 }
 
 interface GithubIssuesResponse {
@@ -73,7 +74,7 @@ export default async function GithubPlugin(cfg: GithubConfig): Promise<LogAll> {
         }
 
         acc[project] = acc[project] || {
-            title: project,
+            title: truncate(project, config.itemLength),
             href: `https://${host}/${project}`,
             repos: {},
         };
@@ -135,7 +136,7 @@ export default async function GithubPlugin(cfg: GithubConfig): Promise<LogAll> {
                 const isLastRepo = idx === Object.keys(byProjectData.repos).length - 1;
 
                 result.push({
-                    title: repo,
+                    title: truncate(repo, config.itemLength),
                     href: data.url,
                     pad: repoPad,
                     size: 14,
@@ -152,7 +153,7 @@ export default async function GithubPlugin(cfg: GithubConfig): Promise<LogAll> {
 
                     data.issues.forEach((issue) => {
                         result.push({
-                            title: issue.title,
+                            title: truncate(issue.title, config.itemLength),
                             href: issue.html_url,
                             pad: issuePullPad,
                         });
@@ -172,7 +173,7 @@ export default async function GithubPlugin(cfg: GithubConfig): Promise<LogAll> {
 
                     data.pulls.forEach((issue) => {
                         result.push({
-                            title: issue.title,
+                            title: truncate(issue.title, config.itemLength),
                             href: issue.html_url,
                             pad: issuePullPad,
                         });
