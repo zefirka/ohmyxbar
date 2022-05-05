@@ -139,7 +139,7 @@ export default async function GithubPlugin(cfg: GithubConfig): Promise<LogAll> {
                     title: truncate(repo, config.itemLength),
                     href: data.url,
                     pad: repoPad,
-                    size: 14,
+                    size: config.groupDepth.includes('repo') ? 14 : 15,
                 });
 
                 if (data.issues.length && config.show !== 'pulls') {
@@ -190,7 +190,7 @@ export default async function GithubPlugin(cfg: GithubConfig): Promise<LogAll> {
             title: byProjectData.title,
             href: byProjectData.href,
             pad: 0,
-            size: 16,
+            size: config.groupDepth.includes('project') ? 14 : 16,
         });
 
         renderEntries();
