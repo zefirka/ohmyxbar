@@ -24,6 +24,7 @@ export interface JiraConfig {
     ticketsByStatus?: number;
     useSeparators?: boolean;
     groupDepth?: 'flat' | 'by-project' | 'by-project-status' | 'by-status';
+    itemLength?: number;
 }
 
 interface IByStatus extends IRecord<IRecord> {
@@ -98,7 +99,8 @@ export default async function JiraPlugin(cfg: JiraConfig): Promise<LogAll> {
             linkToProjectFilter: true,
             linkToStatusFilter: true,
             ticketsByStatus: 10,
-            group: false,
+            groupDepth: 'flat',
+            itemLength: 45,
         },
         cfg,
     ) as Omit<Required<JiraConfig>, 'jql'> & {jql?: string};
@@ -160,7 +162,7 @@ export default async function JiraPlugin(cfg: JiraConfig): Promise<LogAll> {
         projectData.byStatus[status] = projectData.byStatus[status] || [];
 
         projectData.byStatus[status].push({
-            title: truncate(`${ticket.key} - ${ticket.fields.summary}`, 40),
+            title: truncate(`${ticket.key} - ${ticket.fields.summary}`, config.itemLength),
             status: ticket.fields.status.name.toLocaleLowerCase(),
             href: `${config.host}/browse/${ticket.key}`,
             ticket,
