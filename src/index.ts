@@ -11,6 +11,7 @@ const PLUGINS: Record<string, Function> = {
 export interface OhMyXbarConfig {
     header?: string;
     quickLinks: any;
+    verbose?: boolean;
     plugins?: {
         jira?: JiraConfig;
         github?: GithubConfig;
@@ -30,7 +31,12 @@ export default async (config: OhMyXbarConfig) => {
         if (PLUGINS[name]) {
             try {
                 logObject(await PLUGINS[name](pluginConfig));
-            } catch (e) {
+                console.log('---');
+            } catch (e: any) {
+                if (config.verbose) {
+                    console.log(e.message);
+                    e.stack.split('\n').forEach(console.log);
+                }
                 console.log('e', e); // eslint-disable-line
             }
         }

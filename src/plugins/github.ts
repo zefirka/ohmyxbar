@@ -127,9 +127,13 @@ export default async function GithubPlugin(cfg: GithubConfig): Promise<LogAll> {
     const shoudSeparateType =
         config.useSeparators && (config.groupDepth === 'flat' || !config.groupDepth.includes('type'));
 
-    Object.values(byProject).forEach((byProjectData) => {
-        const flatRepos = () => {
-            Object.entries(byProjectData.repos).forEach(([repo, data]) => {
+    Object.values(byProject).forEach((byProjectData, pidx) => {
+        const isLastProject = pidx === Object.values(byProject).length - 1;
+
+        const renderEntries = () => {
+            Object.entries(byProjectData.repos).forEach(([repo, data], idx) => {
+                const isLastRepo = idx === Object.keys(byProjectData.repos).length - 1;
+
                 result.push({
                     title: repo,
                     href: data.url,
@@ -138,6 +142,8 @@ export default async function GithubPlugin(cfg: GithubConfig): Promise<LogAll> {
                 });
 
                 if (data.issues.length && config.show !== 'pulls') {
+                    const isLastType = data.pulls.length === 0;
+
                     shouldRenderType &&
                         result.push({
                             title: 'Issues',
@@ -152,10 +158,12 @@ export default async function GithubPlugin(cfg: GithubConfig): Promise<LogAll> {
                         });
                     });
 
-                    shoudSeparateType && result.push('---');
+                    shoudSeparateType && !isLastType && result.push({title: '---', pad: issuePullTitlePad});
                 }
 
                 if (data.pulls.length && config.show !== 'issues') {
+                    const isLastType = data.issues.length === 0;
+
                     shouldRenderType &&
                         result.push({
                             title: 'Pulls',
@@ -170,33 +178,22 @@ export default async function GithubPlugin(cfg: GithubConfig): Promise<LogAll> {
                         });
                     });
 
-                    shoudSeparateType && result.push('---');
+                    shoudSeparateType && !isLastType && result.push({title: '---', pad: issuePullTitlePad});
                 }
 
-                shoudSeparateRepos && result.push('---');
+                shoudSeparateRepos && !isLastRepo && result.push({title: '---', pad: repoPad});
             });
         };
 
-        if (config.groupDepth === 'flat') {
-            result.push({
-                title: byProjectData.title,
-                href: byProjectData.href,
-                pad: 0,
-                size: 16,
-            });
+        result.push({
+            title: byProjectData.title,
+            href: byProjectData.href,
+            pad: 0,
+            size: 16,
+        });
 
-            flatRepos();
-        } else {
-            result.push({
-                title: byProjectData.title,
-                href: byProjectData.href,
-                pad: 0,
-            });
-
-            flatRepos();
-        }
-
-        shoudSeparateProjects && result.push('---');
+        renderEntries();
+        shoudSeparateProjects && !isLastProject && result.push({title: '---', pad: 0});
     });
 
     return result;

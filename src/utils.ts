@@ -60,11 +60,11 @@ export const logObject = (o: any, pad = 0, usePad = true): any => {
 
     if (typeof o === 'object') {
         if (o.title) {
-            log(
-                `${o.title} | ${o.color ? `color=${o.color}` : ''} ${o.href ? `href=${o.href}` : ''} ${
-                    o.size ? `size=${o.size}` : ''
-                }`,
-            );
+            const sub = `${o.color ? `color=${o.color}` : ''} ${o.href ? `href=${o.href}` : ''} ${
+                o.size ? `size=${o.size}` : ''
+            }`.trim();
+
+            log(`${o.title} ${sub ? '|' : ''} ${sub}`);
             if (o.items && o.items.length) {
                 return logObject(o.items, o.pad !== undefined ? o.pad : pad, usePad);
             }

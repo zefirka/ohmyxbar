@@ -12,4 +12,8 @@ try {
     config = {};
 }
 
+if (argv.verbose) {
+    config.verbose = true;
+}
+
 build.default(config);
