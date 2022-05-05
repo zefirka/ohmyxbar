@@ -181,7 +181,7 @@ export default async function JiraPlugin(cfg: JiraConfig): Promise<LogAll> {
                 title,
                 href,
                 pad: 0,
-                size: 32,
+                size: 16,
             });
 
             statusEntries.forEach(([status, byStatusArr]) => {

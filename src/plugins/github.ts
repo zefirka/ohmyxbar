@@ -134,7 +134,7 @@ export default async function GithubPlugin(cfg: GithubConfig): Promise<LogAll> {
                     title: repo,
                     href: data.url,
                     pad: repoPad,
-                    size: 24,
+                    size: 14,
                 });
 
                 if (data.issues.length && config.show !== 'pulls') {
@@ -182,7 +182,7 @@ export default async function GithubPlugin(cfg: GithubConfig): Promise<LogAll> {
                 title: byProjectData.title,
                 href: byProjectData.href,
                 pad: 0,
-                size: 32,
+                size: 16,
             });
 
             flatRepos();
