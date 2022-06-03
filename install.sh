@@ -131,10 +131,10 @@ configure_github() {
 
     i=$((i+1))
 
-    read -p "[$i]: Set your Github host (default: github.com): " GITHUB_HOST </dev/tty
+    read -p "[$i]: Set your Github API host (default: api.github.com): " GITHUB_HOST </dev/tty
 
     if [ "$GITHUB_HOST" == "" ]; then
-        GITHUB_HOST="github.com"
+        GITHUB_HOST="https://api.github.com"
     fi
 
     i=$((i+1))

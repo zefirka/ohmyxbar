@@ -38,7 +38,6 @@ export default async (config: OhMyXbarConfig) => {
                     console.log(e.message);
                     e.stack.split('\n').forEach(console.log);
                 }
-                console.log('e', e); // eslint-disable-line
             }
         }
     }
