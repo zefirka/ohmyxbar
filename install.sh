@@ -17,11 +17,10 @@ HERE=$(pwd)
 cd /tmp
 
 echo "Updating/Installing xBar"
-curl -s https://api.github.com/repos/matryer/xbar/releases/latest \
-| grep "browser_download_url.*zip" \
-| cut -d : -f 2,3 \
-| tr -d \" \
-| wget -qi - || exitMsg 'Cant install xBar'
+
+rm xbar*.zip
+XBAR_LATEST=$(curl -s https://api.github.com/repos/matryer/xbar/releases/latest | grep "browser_download_url.*zip" | cut -d : -f 2,3 | tr -d \")
+curl ${XBAR_LATEST} -LO || exitMsg 'Cant install xBar'
 
 unzip xbar*.zip
 
@@ -52,7 +51,7 @@ echo "#!/bin/sh" > "${PLUGIN_FILE}"
 echo "" >> "${PLUGIN_FILE}"
 echo 'export PATH="$PATH:"/usr/local/bin/' >> "${PLUGIN_FILE}"
 
-echo "Configuring Yabar plugin"
+echo "Configuring OhMyXbar plugin"
 
 read -p "[1]: Config file (default ~/.ohmyxbar.js): " CFG_FILE </dev/tty
 
@@ -82,7 +81,7 @@ echo "  plugins: {" >> "${CFG_FILE}"
 
 configure_jira() {
     while true; do
-        read -p "[$i]: Insert Jira token (see https://id.atlassian.com/manage-profile/security/api-tokens ): " JIRA_TOKEN </dev/tty
+        read -p "[$i]: Insert Jira token (see https://id.atlassian.com/manage-profile/security/api-tokens): " JIRA_TOKEN </dev/tty
         if [ "$JIRA_TOKEN" == "" ]; then
             as_error "Jira token is required"
         else
