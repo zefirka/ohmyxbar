@@ -161,7 +161,7 @@ fi
 echo "  }" >> "${CFG_FILE}"
 echo "}" >> "${CFG_FILE}"
 
-echo "npx ohmyxbar --config=${CFG_FILE}" >> ~/Library/Application\ Support/xbar/plugins/ohmyxbar.sh
+echo "npx ohmyxbar@latest --config=${CFG_FILE}" >> ~/Library/Application\ Support/xbar/plugins/ohmyxbar.sh
 
 sleep 1;
 open /Applications/xbar.app
